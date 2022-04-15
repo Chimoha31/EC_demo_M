@@ -3,21 +3,23 @@ import classes from "./MealItemForm.module.css";
 import Input from "../../UI/Input";
 import { v4 as uuidv4 } from "uuid";
 
-const MealItemForm = () => {
+const MealItemForm = ({addToCartHandler}) => {
   const uuid = uuidv4();
   const amountInputRef = useRef();
-  const [amountIsValid, setAmountIsValid] = useState(false);
+  const [amountIsValid, setAmountIsValid] = useState(true);
 
   const submitHandler = (e) => {
     e.preventDefault();
 
     const enteredAmount = amountInputRef.current.value;
     const enteredAmountNumber = +enteredAmount;
+    console.log(enteredAmount);
 
     if(enteredAmount.trim().length === 0 || enteredAmountNumber < 1 || enteredAmountNumber > 5) {
       setAmountIsValid(false);
       return;
     }
+    addToCartHandler(enteredAmountNumber);
   };
 
   return (
@@ -35,7 +37,7 @@ const MealItemForm = () => {
         }}
       />
       <button>+ Add</button>
-      {!amountIsValid && <p>Please enter a valid amount[1-5]</p>}
+      {!amountIsValid && <p>Please enter a valid amount(1-5)</p>}
     </form>
   );
 };
